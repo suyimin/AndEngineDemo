@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="demoNames">
+        <item>SampleActivity</item>
+        <item>Sample1Activity</item>
+        <item>Sample6Activity</item>
+        <item>Sample7Activity</item>
+        <item>Sample8Activity</item>
+        <item>Sample9Activity</item>
+        <item>Sample10Activity</item>
+        <item>Sample11Activity</item>
+        <item>MovingBallExample</item>
+        <item>MusicExample</item>
+    </string-array>
+    <string-array name="demoDirects">
+        <item>com.example.demo.SampleActivity</item>
+        <item>com.example.demo.Sample1Activity</item>
+        <item>com.example.demo.Sample6Activity</item>
+        <item>com.example.demo.Sample7Activity</item>
+        <item>com.example.demo.Sample8Activity</item>
+        <item>com.example.demo.Sample9Activity</item>
+        <item>com.example.demo.Sample10Activity</item>
+        <item>com.example.demo.Sample11Activity</item>
+        <item>com.example.demo.MovingBallExample</item>
+        <item>com.example.demo.MusicExample</item>
+    </string-array>
+</resources>

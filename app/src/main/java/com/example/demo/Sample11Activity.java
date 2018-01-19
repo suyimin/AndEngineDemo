@@ -1,4 +1,4 @@
-package com.example.andenginedemo;
+package com.example.demo;
 
 import android.opengl.GLES20;
 import android.widget.Toast;

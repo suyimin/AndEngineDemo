@@ -1,4 +1,7 @@
-package com.example.andenginedemo;
+package com.example.demo;
+
+import android.opengl.GLES20;
+import android.widget.Toast;
 
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
@@ -27,9 +30,6 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegion
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.math.MathUtils;
-
-import android.opengl.GLES20;
-import android.widget.Toast;
 
 /**
  * (c) 2010 Nicolas Gramlich

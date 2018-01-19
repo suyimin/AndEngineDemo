@@ -1,4 +1,4 @@
-package com.example.andenginedemo;
+package com.example.demo;
 
 import android.hardware.SensorManager;
 import android.widget.Toast;

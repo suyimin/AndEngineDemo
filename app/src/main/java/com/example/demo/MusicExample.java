@@ -1,30 +1,37 @@
-package com.example.andenginedemo;
+package com.example.demo;
 
+import android.widget.Toast;
+
+import org.andengine.audio.music.Music;
+import org.andengine.audio.music.MusicFactory;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.andengine.entity.modifier.LoopEntityModifier;
-import org.andengine.entity.modifier.RotationModifier;
+import org.andengine.entity.scene.IOnAreaTouchListener;
+import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
+import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
-import org.andengine.opengl.util.GLState;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
+import org.andengine.util.debug.Debug;
+
+import java.io.IOException;
 
 /**
  * (c) 2010 Nicolas Gramlich
  * (c) 2011 Zynga
  *
  * @author Nicolas Gramlich
- * @since 10:10:10 - 10.10.2010
+ * @since 15:51:47 - 13.06.2010
  */
-public class Sample1Activity extends SimpleBaseGameActivity {
+public class MusicExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -37,7 +44,9 @@ public class Sample1Activity extends SimpleBaseGameActivity {
 	// ===========================================================
 
 	private BitmapTextureAtlas mBitmapTextureAtlas;
-	private ITextureRegion mFaceTextureRegion;
+	private ITextureRegion mNotesTextureRegion;
+
+	private Music mMusic;
 
 	// ===========================================================
 	// Constructors
@@ -53,61 +62,63 @@ public class Sample1Activity extends SimpleBaseGameActivity {
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
-		final Camera camera = new Camera(0, 0, this.getCameraWidth(), this.getCameraHeight());
-		camera.setZClippingPlanes(-100, 100);
+		Toast.makeText(this, "Touch the notes to hear some Music.", Toast.LENGTH_LONG).show();
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(this.getCameraWidth(), this.getCameraHeight()), camera);
+		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+
+		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		engineOptions.getAudioOptions().setNeedsMusic(true);
+		return engineOptions;
 	}
 
 	@Override
 	public void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 32, 32, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 128, 128, TextureOptions.BILINEAR);
+		this.mNotesTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "notes.png", 0, 0);
 		this.mBitmapTextureAtlas.load();
+
+		MusicFactory.setAssetBasePath("mfx/");
+		try {
+			this.mMusic = MusicFactory.createMusicFromAsset(this.mEngine.getMusicManager(), this, "wagner_the_ride_of_the_valkyries.ogg");
+			this.mMusic.setLooping(true);
+		} catch (final IOException e) {
+			Debug.e(e);
+		}
+
 	}
 
 	@Override
 	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene();	
+		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final float centerX = (this.getCameraWidth() - this.mFaceTextureRegion.getWidth()) / 2;
-		final float centerY = (this.getCameraHeight() - this.mFaceTextureRegion.getHeight()) / 2;
+		final float centerX = (CAMERA_WIDTH - this.mNotesTextureRegion.getWidth()) / 2;
+		final float centerY = (CAMERA_HEIGHT - this.mNotesTextureRegion.getHeight()) / 2;
 
-		/* Create the face and add it to the scene. */
-		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager()) {
+		final Sprite notes = new Sprite(centerX, centerY, this.mNotesTextureRegion, this.getVertexBufferObjectManager());
+		scene.attachChild(notes);
+
+		scene.registerTouchArea(notes);
+		scene.setOnAreaTouchListener(new IOnAreaTouchListener() {
 			@Override
-			protected void applyRotation(final GLState pGLState) {
-				final float rotation = this.mRotation;
-
-				if(rotation != 0) {
-					final float rotationCenterX = this.mRotationCenterX;
-					final float rotationCenterY = this.mRotationCenterY;
-
-					pGLState.translateModelViewGLMatrixf(rotationCenterX, rotationCenterY, 0);
-					/* Note we are applying rotation around the y-axis and not the z-axis anymore! */
-					pGLState.rotateModelViewGLMatrixf(rotation, 0, 1, 0);
-					pGLState.translateModelViewGLMatrixf(-rotationCenterX, -rotationCenterY, 0);
+			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+				if(pSceneTouchEvent.isActionDown()) {
+					if(MusicExample.this.mMusic.isPlaying()) {
+						MusicExample.this.mMusic.pause();
+					} else {
+						MusicExample.this.mMusic.play();
+					}
 				}
+
+				return true;
 			}
-		};
-		face.registerEntityModifier(new LoopEntityModifier(new RotationModifier(6, 0, 360)));
-		scene.attachChild(face);
+		});
 
 		return scene;
-	}
-
-	private float getCameraHeight() {
-		return CAMERA_HEIGHT;
-	}
-
-	private float getCameraWidth() {
-		return CAMERA_WIDTH;
 	}
 
 	// ===========================================================

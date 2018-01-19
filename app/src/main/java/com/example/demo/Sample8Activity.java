@@ -1,4 +1,4 @@
-package com.example.andenginedemo;
+package com.example.demo;
 
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
