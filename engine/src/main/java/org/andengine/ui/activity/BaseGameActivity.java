@@ -9,7 +9,7 @@ import android.os.PowerManager.WakeLock;
 import android.view.Gravity;
 import android.widget.FrameLayout.LayoutParams;
 
-import com.example.andenginedemo.BuildConfig;
+import com.example.engine.BuildConfig;
 
 import org.andengine.audio.music.MusicManager;
 import org.andengine.audio.sound.SoundManager;

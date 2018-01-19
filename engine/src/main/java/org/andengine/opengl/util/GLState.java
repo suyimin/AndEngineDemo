@@ -5,7 +5,7 @@ import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.opengl.Matrix;
 
-import com.example.andenginedemo.BuildConfig;
+import com.example.engine.BuildConfig;
 
 import org.andengine.engine.options.RenderOptions;
 import org.andengine.opengl.exception.GLException;

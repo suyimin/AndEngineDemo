@@ -1,6 +1,6 @@
 package org.andengine.util.adt.pool;
 
-import com.example.andenginedemo.BuildConfig;
+import com.example.engine.BuildConfig;
 
 import org.andengine.util.debug.Debug;
 

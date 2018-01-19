@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 
-import com.example.andenginedemo.BuildConfig;
+import com.example.engine.BuildConfig;
 
 import org.andengine.audio.music.MusicFactory;
 import org.andengine.audio.music.MusicManager;

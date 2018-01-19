@@ -1,6 +1,6 @@
 package org.andengine.opengl.texture.atlas;
 
-import com.example.andenginedemo.BuildConfig;
+import com.example.engine.BuildConfig;
 
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.ITextureStateListener;

@@ -2,7 +2,7 @@ package org.andengine.opengl.texture.compressed.pvr;
 
 import android.opengl.GLES20;
 
-import com.example.andenginedemo.BuildConfig;
+import com.example.engine.BuildConfig;
 
 import org.andengine.opengl.texture.ITextureStateListener;
 import org.andengine.opengl.texture.PixelFormat;
