@@ -288,7 +288,7 @@ public abstract class BaseGameActivity extends BaseActivity implements IGameInte
 
 		this.onGameDestroyed();
 
-		this.mEngine = null;
+		//this.mEngine = null;
 	}
 
 	@Override
