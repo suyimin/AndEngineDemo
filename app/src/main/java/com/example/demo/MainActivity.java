@@ -22,7 +22,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         setContentView(R.layout.activity_main);
         demoNames = getResources().getStringArray(R.array.demoNames);
         demoDirects = getResources().getStringArray(R.array.demoDirects);
-        listView = findViewById(R.id.listview);
+        listView = (ListView) findViewById(R.id.listview);
         listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, demoNames));
         listView.setOnItemClickListener(this);
     }
